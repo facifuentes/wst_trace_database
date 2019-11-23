@@ -35,6 +35,17 @@ public class TBComparacion implements Serializable {
 		this.huellaanterior = huellaanterior;
 		this.estado = estado;
 	}
+	
+	public TBComparacion(String releasenuevo, String camponuevo, String huellanueva,
+			String releaseanterior, String huellaanterior, String estado) {
+		super();
+		this.releasenuevo = releasenuevo;
+		this.camponuevo = camponuevo;
+		this.huellanueva = huellanueva;
+		this.releaseanterior = releaseanterior;
+		this.huellaanterior = huellaanterior;
+		this.estado = estado;
+	}
 
 	public String getReleasenuevo() {
 		return releasenuevo;

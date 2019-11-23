@@ -6,7 +6,6 @@ as $$
 begin
 return query
 SELECT  prelease r_release, estructura.tabla || '.' || estructura.name r_campo,(estructura.tabla || '.' || estructura.name || '.' || estructura.type) r_estructura ,encode(auditoria.digest(estructura::text, 'sha256'),'hex') r_huella , current_timestamp r_fecha
-	--into tbRelease
 	from
 (SELECT  c.relname AS tabla,
     f.attnum AS number,  
@@ -45,8 +44,7 @@ FROM pg_attribute f
     LEFT JOIN pg_constraint p ON p.conrelid = c.oid AND f.attnum = ANY (p.conkey)  
     LEFT JOIN pg_class AS g ON p.confrelid = g.oid  
 WHERE c.relkind = 'r'::char 
-    AND n.nspname = pschema -- Replace with Schema name  
-    --AND c.relname = 'cliente'  -- Replace with table name 
+    AND n.nspname = pschema 
  	AND c.relname <> 'tbrelease'
     AND f.attnum > 0 ORDER BY c.relname,number) estructura;
 end;

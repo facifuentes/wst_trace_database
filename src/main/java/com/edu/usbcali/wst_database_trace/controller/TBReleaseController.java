@@ -35,7 +35,6 @@ public class TBReleaseController {
 		try {
 			list = releaseService.getAllSchemas();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return list;
@@ -47,7 +46,6 @@ public class TBReleaseController {
 		try {
 			list = releaseService.getAllReleasesbySchema(schema);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return list;
@@ -59,13 +57,10 @@ public class TBReleaseController {
 		try {
 			list = releaseService.getRelease(schema, release);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return list;
 	}
-	
-	
 	
 	@PostMapping("createReleaseDB/{schema}")
 	public ResponseEntity<?> createReleaseDB(@PathVariable("schema") String schema) {
@@ -99,9 +94,73 @@ public class TBReleaseController {
 		try {
 			list = releaseService.getComparation(schema,releasenew, releaseold);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return list;
 	}
+	
+	//Control de Datos
+	
+	@GetMapping("getAllDataReleasesbySchema/{schema}")
+	public List<ReleaseSchema> getAllReleasesDatabySchema(@PathVariable("schema") String schema) {
+		List<ReleaseSchema> list=null;
+		try {
+			list = releaseService.getAllReleasesDatabySchema(schema);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@GetMapping("getReleaseData/{release}")
+	public List<TBRelease> getReleaseData(@PathVariable("release") String release) {
+		List<TBRelease> list=null;
+		try {
+			list = releaseService.getReleaseDatabyR(release);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@PostMapping("createReleaseData/{schema}")
+	public ResponseEntity<?> createReleaseData(@PathVariable("schema") String schema) {
+		try {
+			Date objDate = new Date(); 
+		
+	        String strDateFormat = "dd-MM-yyyy_hh:mm:ss_a"; 
+	        SimpleDateFormat objSDF = new SimpleDateFormat(strDateFormat); 
+			String release="Release_DB_"+objSDF.format(objDate).toString();
+			releaseService.createReleaseData(schema, release);
+			return ResponseEntity.ok().body(releaseService.getReleaseDatabyR(release));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new Response(400,"No es posible crear la huella"));
+		}
+	}
+	
+	@PutMapping("updateDataBaseLine/{schema}/{releasenuevo}/{releaseant}")
+	public ResponseEntity<?> updateDataBaseLine(@PathVariable("schema") String schema,@PathVariable("releasenuevo") String releasenuevo,@PathVariable("releaseant") String releaseant) {
+		try {
+			releaseService.updateDataBaseLine(false, releaseant, schema);
+			releaseService.updateDataBaseLine(true, releasenuevo, schema);
+			return ResponseEntity.ok().body(new Response(200,"Linea Base Actualizada"));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new Response(400,"No es posible actualizar la linea base"));
+		}
+	}
+	
+	@GetMapping("getComparationData/{schema}/{releasenew}/{releaseold}")
+	public List<TBComparacion> getComparationData(@PathVariable("schema") String schema,@PathVariable("releasenew") String releasenew,@PathVariable("releaseold") String releaseold) {
+		List<TBComparacion> list=null;
+		try {
+			list = releaseService.getComparationData(schema,releasenew, releaseold);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	
+	
+	
 }

@@ -60,6 +60,18 @@ public class TBRelease implements Serializable {
 		this.r_fecha = r_fecha;
 		this.r_lineabase=r_lineaBase;
 	}
+	
+
+	public TBRelease( String r_release, String r_campo, String r_huella,Timestamp r_fecha,boolean r_lineaBase
+			) {
+		super();
+		this.r_release = r_release;
+		this.r_campo = r_campo;
+		this.r_huella = r_huella;
+		this.r_fecha = r_fecha;
+		this.r_lineabase=r_lineaBase;
+	}
+	
 
 	public Long getR_id() {
 		return r_id;
